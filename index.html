@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!-- © 2022 Leon Poon. All Rights Reserved. -->
+<html>
+    <head>
+        <title>Compound Interest Visualizer</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- JavaScript Bundle with Popper -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="script.js" defer></script>
+        <link rel="stylesheet" href="bootstrapCustom.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Merriweather+Sans:wght@300&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- Modal -->
+        <div class="modal fade" id="inquireModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Simply enter the parameters needed to calculate the future value (FV) from the present value (PV) investment.
+                            No personal information is saved within these pages - closing the webpage or refreshing will clear inputs.</p>
+                        <p>The future value compound interest formula is as follows: <br><br>
+                            <a href="https://www.calculatorsoup.com/calculators/financial/compound-interest-calculator.php" target="_blank" style="text-decoration: none;">
+                                <b>A = P * ( 1 + <sup>r</sup>/<sub>n</sub> )<sup>n<i>t</i></sup></b></a> <br><br>
+                            A = Final amount <br>
+                            P = initial principal amount <br>
+                            r = interest rate (in decimal) <br>
+                            n = compounding intervals within a time period<br>
+                            <i>t</i> = number of time periods elapsed <br>
+                        </p>
+                        <p>This formula allows the user to quickly arrive at the final accrued amount, but through programmatic
+                            iterations, this mini-application can also break down the steps of every compounding interval, then displayed on
+                            a line graph below.
+                        </p>
+                        <p>Rules for parameters:</p>
+                        <p>- Must select a compounding interval<br>
+                        - Present Value must have input, and >= 0<br>
+                        - Interest rate must have input, and >= 0<br>
+                        - Timeframe: You must select the proper compounding period, either <b>[By Years]</b> or <b>[By Date Interval]</b><br>
+                        - If <b>[By Years]</b>, must be a <a href="https://en.wikipedia.org/wiki/Natural_number#:~:text=begin%20the%20natural%20numbers%20with%200%2C%20corresponding%20to%20the%20non%2Dnegative%20integers%200%2C%201%2C%202%2C%203%2C%20...%2C" target="_blank">
+                                                natural number</a><br>
+                        - If <b>[By Date Interval]</b> and compounding period is <i>Monthly</i>, values must not be the same month and only <b>whole</b> months within the interval are taken into calculation
+                        <br><sub>(Example: between Jan 1, 2022 to Feb 28, 2022 will be invalid, as the start date is already within January (30 / 31 days left), and the 
+                        end date is still within February (28 / 28, but the last day has not ended yet for February to be 'a whole month' )</sub><br><br>
+                        - Contribution per Year will default to $0.00 if left blank<br>
+                        - Contributions are divided and added prior to each compounding interval<br>
+                        <sub>(as with time-value of money, deposits should be added sooner rather than later)</sub>
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Form + output container -->
+        <div class="container med-shadow">
+            <div class="git-nav">
+                <a href="https://github.com/Sheceido" target="_blank"><img src="./assets/GitHub-Mark-120px-plus.png" class="icon" alt="github profile"></a>
+            </div>
+            <div class="inquire"><img class="btn btn-outline-light icon"  data-bs-toggle="modal" data-bs-target="#inquireModal"
+                src="./assets/question-mark-button.svg" alt="inquiry button"></div>
+            <!-- form container -->
+            <h3>Compound Interest Visualizer</h3>
+            <div class="optionForm card flex-adjust">
+            <!-- Input container -->
+                <div class="userInput card parameters light-shadow">
+                    <!-- Select compounding period -->
+                    <div class="inputBox mb-3">
+                        <select class="form-select item-input form-select-lg" autofocus id="compoundTime" aria-label="select compounding period">
+                            <option selected="true" disabled>--Select compounding period--</option>
+                            <option value="annual">Annual</option>
+                            <option value="biannual">Biannual</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <!-- Present Value -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control item-input" name="presentValue" id="presentValue" type="number" placeholder="Present Value" required>
+                        <label for="presentValue">Present Value ($):</label>
+                    </div>
+                    <!-- Interest -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control item-input" name="interest" id="interest" type="number" step="0.1" placeholder="Interest (%)" required>
+                        <label for="interest">Interest (%):</label>
+                    </div>
+                    <!-- group buttons -->
+                    <div class="btn-toolbar" role="toolbar" aria-label="Time interval by year or date range">
+                        <div class="btn-group btn-group-lg dateYearBtn" role="group" aria-label="button group">
+                            <button type="button" class="btn btn-outline-primary groupBtnYears">By Years <sub><sub>(natural numbers)</sub></sub></button>
+                            <button type="button" class="btn btn-outline-primary groupBtnDates">By Date Interval</button>
+                        </div>
+                    </div>
+                    <!-- Years/Start-End Dates -->
+                    <div class="form-floating mb-3 showYears hidden">
+                        <input class="form-control item-input" name="years" id="years" type="number" placeholder="Years" required>
+                        <label for="years">Years</label>
+                    </div>
+                    <div class="card showDates pt-3 mb-3 hidden">
+                        <div class="form-floating p-2">
+                            <input class="form-control item-input" type="date" id="startDate" name="startDate"
+                                value="2022-01-01" min="2000-01-01" max="2200-12-31">
+                            <label for="startDate" placeholder="Starting Date:">Starting Date:</label>
+                        </div>
+                        <div class="form-floating mb-3 p-2">
+                            <input class="form-control item-input" type="date" id="endDate" name="endDate"
+                                value="2022-01-01" min="2000-01-01" max="2300-12-31">
+                            <label for="endDate" placeholder="Ending Date:">Ending Date:</label>
+                        </div>
+                    </div>
+                    <!-- Contributions -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control item-input" name="contribution" id="contribution" type="number" placeholder="0">
+                        <label for="contribution">Contribution per Year ($)</label>
+                    </div>
+                    <div class="d-grid gap-2 col-10 mx-auto">
+                        <button type="button" class="calculate btn btn-outline-primary btn-lg">Calculate and Graph</button>
+                    </div>
+                </div>
+            <!-- Output container -->
+                <div class="textValue card parameters light-shadow">
+                    <p class="output"></p>
+                    <div class="breakdown card">
+                        <div class="flex-perm-row">
+                            <div class="enumerate">Enter Values for Calculations.</div>
+                            <div class="compoundValueOutput"></div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- Chart -->
+            <div class="chartContainer card light-shadow">
+                <canvas id="compoundInterestChart" class="">Chart for compound interest</canvas>
+            </div>
+        </div>
+        <footer>
+            <p>© 2022 Leon Poon. All Rights Reserved.</p>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    </body>
+</html>
