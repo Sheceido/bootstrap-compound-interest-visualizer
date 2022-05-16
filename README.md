@@ -4,7 +4,7 @@
 Simply enter the parameters needed to calculate the future value (FV) from the present value (PV) investment. No personal information is saved within these pages - closing the webpage or refreshing will clear inputs.
 
 The future value compound interest formula is as follows:
-
+##
 ## [A = P * ( 1 + <sup>r</sup>/<sub>n</sub> )<sup>n _t_ </sup>](https://www.calculatorsoup.com/calculators/financial/compound-interest-calculator.php)
 
   A = Final amount
@@ -34,7 +34,7 @@ Rules for parameters:
   - <sub>(as with time-value of money, deposits should be added sooner rather than later)</sub>
 ##
 
-#### Dev-gist
+## Dev-gist
 
 This mini-application was made purely as a client-side calculator for compound interest, using majority being plain Javascript, with some help from ChartJS for the graph implementation of data points. The [initial iteration](https://sheceido.github.io/compound-interest-visualizer/) was rather ugly, and I opted to using bootstrap for easier device compatibility.
 Feedback attained asked for the option to not only choose to compound 'by the year', but also give the freedom for users to choose specific start and end days. This posed some initial difficulties, as I would have to make sure the compounding intervals (Annual, Biannual, Quarterly, and Monthly) worked for different interval ranges.
