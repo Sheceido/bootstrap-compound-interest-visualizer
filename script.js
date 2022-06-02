@@ -101,9 +101,9 @@ window.onload = function() {
             //display summary present and future value and breakdown subtitle
             document.querySelector('.breakdown').style.overflowY = "scroll";
             document.querySelector('.output').innerHTML = `The total future value of the investment:<br><b>$ ${ numberWithCommas( parseFloat(futureValue).toFixed(2))}</b>
-                                                        <br> The total interest earned from investment:<br><b>$ ${ numberWithCommas( parseFloat(futureValue - presentValue - grossContribution).toFixed(2) ) }</b>
-                                                        <br> The total contribution (excluding principal amount):<br><b>$ ${ numberWithCommas( parseFloat(grossContribution).toFixed(2) ) }</b>
-                                                        <br><br>Total ${stringBreakdown}`;
+                                                        <br><br> The total interest earned from investment:<br><b>$ ${ numberWithCommas( parseFloat(futureValue - presentValue - grossContribution).toFixed(2) ) }</b>
+                                                        <br><br> The total contribution (excluding principal amount):<br><b>$ ${ numberWithCommas( parseFloat(grossContribution).toFixed(2) ) }</b>
+                                                        <br><br><br>Total ${stringBreakdown}`;
             document.querySelector('.enumerate').innerHTML = enumerate;
             document.querySelector('.compoundValueOutput').innerHTML = valueStrParse;
 
