@@ -23,6 +23,16 @@ h3 {
   justify-content: space-around;
 }
 
+.flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.enumerate {
+  text-align: right;
+}
+
 .hidden {
   display: none;
 }

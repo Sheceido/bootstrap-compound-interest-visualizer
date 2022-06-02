@@ -90,7 +90,7 @@ window.onload = function() {
 
             for (let i = 0; i < perYearValue.length; i++) {
                 perYearValueArray.push(parseFloat(perYearValue[i]).toFixed(2));
-                enumerate += `${i + 1}) <br>`;
+                enumerate += `${i + 1}) &nbsp; &nbsp;<br>`;
                 valueStrParse += `$ ${ numberWithCommas(parseFloat(perYearValue[i]).toFixed(2)) }<br>`
             }
 
